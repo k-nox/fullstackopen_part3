@@ -61,20 +61,46 @@ const generateId = () => {
   return id;
 };
 
-app.post('/api/persons', (request, response) => {
-  const body = request.body;
-  console.log(request.body);
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'name and/or number missing',
-    });
+const checkForErrorsInPOST = (person) => {
+  if (!person.name) {
+    return {
+      error: 'name must be included',
+    };
   }
 
-  person = {
-    id: generateId(),
-    name: body.name,
-    number: body.number,
-  };
+  if (!person.number) {
+    return {
+      error: 'number must be included',
+    };
+  }
+
+  if (persons.some((p) => p.name === person.name)) {
+    return {
+      error: 'name must be unique',
+    };
+  }
+};
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+
+  // if (!body.name || !body.number) {
+  //   return response.status(400).json({
+  //     error: 'name and/or number missing',
+  //   });
+  // }
+
+  const error = checkForErrorsInPOST(body);
+  if (error) {
+    return response.status(400).json(error);
+  }
+
+  if (body.name)
+    person = {
+      id: generateId(),
+      name: body.name,
+      number: body.number,
+    };
 
   persons = persons.concat(person);
   response.json(person);
