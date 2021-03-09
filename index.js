@@ -2,6 +2,8 @@ const { request, response } = require('express');
 const express = require('express');
 const app = express();
 
+app.use(express.json());
+
 let persons = [
   {
     id: 1,
@@ -48,6 +50,34 @@ app.delete('/api/persons/:id', (request, response) => {
   const id = +request.params.id;
   persons = persons.filter((person) => person.id !== id);
   response.status(204).end();
+});
+
+// returns new random ID between 0 and 999999 inclusive
+const generateId = () => {
+  const id = Math.floor(Math.random() * 1000000);
+  if (persons.some((person) => person.id === id)) {
+    return generateId();
+  }
+  return id;
+};
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+  console.log(request.body);
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: 'name and/or number missing',
+    });
+  }
+
+  person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(person);
+  response.json(person);
 });
 
 const PORT = 3001;
