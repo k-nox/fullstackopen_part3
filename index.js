@@ -1,8 +1,11 @@
-const { request, response } = require('express');
+// const { request, response } = require('express');
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
 app.use(express.json());
+app.use(morgan('tiny'));
 
 let persons = [
   {
@@ -83,12 +86,6 @@ const checkForErrorsInPOST = (person) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-
-  // if (!body.name || !body.number) {
-  //   return response.status(400).json({
-  //     error: 'name and/or number missing',
-  //   });
-  // }
 
   const error = checkForErrorsInPOST(body);
   if (error) {
