@@ -6,6 +6,7 @@ const app = express();
 morgan.token('content', (req, res) => JSON.stringify(req.body));
 
 app.use(express.json());
+app.use(express.static('build'));
 
 app.use(
   morgan('tiny', {
