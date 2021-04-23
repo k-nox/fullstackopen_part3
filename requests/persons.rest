@@ -8,3 +8,12 @@ GET http://localhost:3001/api/persons/99
 
 ###
 DELETE http://localhost:3001/api/persons/2
+
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+  "name": "Knox Lumos",
+  "number": "123-789-6540"
+}
