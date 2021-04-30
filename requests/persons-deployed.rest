@@ -1,0 +1,19 @@
+GET https://stark-peak-51894.herokuapp.com/api/persons
+
+###
+GET https://stark-peak-51894.herokuapp.com/api/persons/2
+
+###
+GET https://stark-peak-51894.herokuapp.com/api/persons/99
+
+###
+DELETE https://stark-peak-51894.herokuapp.com/api/persons/2
+
+###
+POST https://stark-peak-51894.herokuapp.com/api/persons
+Content-Type: application/json
+
+{
+  "name": "Knox Lumos",
+  "number": "123-789-6540"
+}
